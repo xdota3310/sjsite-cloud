@@ -8,6 +8,12 @@ server:
 spring:
   application:
     name: configcenter
+  cloud:
+    config:
+      server:
+        git:
+          uri:https://github.com/xdota3310/config-center.git
+      label:
 
 eureka:
   client:
