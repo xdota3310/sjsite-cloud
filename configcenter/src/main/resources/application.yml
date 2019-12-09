@@ -3,7 +3,7 @@
 #spring.datasource.username=developer
 #spring.datasource.password=developer1015
 server:
-  port: 6603
+  port: 6602
 
 spring:
   application:
@@ -12,7 +12,8 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/xdota3310/config-center.git
+          uri: https://github.com/xdota3310/sjsite-cloud.git
+          #https://github.com/xdota3310/config-center.git
 
 eureka:
   client:
