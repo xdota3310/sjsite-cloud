@@ -1,0 +1,8 @@
+
+spring:
+  application:
+    name: cloud-blog
+  cloud:
+    config:
+      uri: http://localhost:6603/
+
