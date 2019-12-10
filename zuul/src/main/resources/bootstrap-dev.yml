@@ -1,9 +1,9 @@
 server:
-  port: 6610
+  port: 6603
 
 spring:
   application:
-    name: fileserver
+    name: zuul
 
 eureka:
   client:

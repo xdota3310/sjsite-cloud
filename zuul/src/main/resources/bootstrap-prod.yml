@@ -1,0 +1,8 @@
+name: prod
+spring:
+  application:
+    name: cloud-zuul
+  cloud:
+    config:
+      fail-fast: true
+      uri: http://47.101.35.22:6602/

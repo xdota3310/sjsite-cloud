@@ -3,7 +3,7 @@
 #spring.datasource.username=developer
 #spring.datasource.password=developer1015
 #server:
-#  port: 6602
+#  port: 6603
 #
 #spring:
 #  application:
@@ -21,14 +21,11 @@
 #    lease-expiration-duration-in-seconds: 20
 #    prefer-ip-address: true
 #    instance-id: ${spring.cloud.client.ip-address}:${server.port}
-#
+##
 spring:
-  application:
-    name: cloud-zuul
-  cloud:
-    config:
-      uri: http://localhost:6603/
-#      profile: dev
+  profiles:
+    active: @environment@
+
 #      label: master
 
 

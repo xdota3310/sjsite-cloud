@@ -4,6 +4,11 @@ server:
 spring:
   application:
     name: blog
+  datasource:
+    username: root
+    password: Admin1234.
+    url: jdbc:mysql://47.101.35.22:3306/sjblog?useUnicode=true&characterEncoding=UTF-8
+#    driver-class-name: com.mysql.jdbc.Driver
 
 eureka:
   client:
@@ -17,3 +22,7 @@ eureka:
     lease-expiration-duration-in-seconds: 20
     prefer-ip-address: true
     instance-id: ${spring.cloud.client.ip-address}:${server.port}
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+#  type-aliases-package: com.lr.blog.article.model.DO

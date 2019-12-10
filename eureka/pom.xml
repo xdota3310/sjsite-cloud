@@ -11,7 +11,7 @@
     <groupId>com.lr</groupId>
     <artifactId>eureka</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>eureka</name>
     <description>eureka</description>
 
@@ -64,6 +64,10 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                    <mainClass>com.lr.eureka.EurekaApplication</mainClass>
+                </configuration>
             </plugin>
         </plugins>
     </build>

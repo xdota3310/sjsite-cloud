@@ -11,7 +11,7 @@
     <groupId>com.lr</groupId>
     <artifactId>configcenter</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>war</packaging>
+    <packaging>jar</packaging>
     <name>configcenter</name>
     <description>configCenter</description>
 
@@ -76,7 +76,12 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <jvmArguments>-Dfile.encoding=UTF-8</jvmArguments>
+                    <mainClass>com.lr.configcenter.ConfigcenterApplication</mainClass>
+                </configuration>
             </plugin>
+
         </plugins>
     </build>
 

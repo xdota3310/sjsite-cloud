@@ -12,8 +12,9 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/xdota3310/sjsite-cloud.git
-          #https://github.com/xdota3310/config-center.git
+          uri: https://github.com/xdota3310/config-center.git
+          clone-on-start: true
+          #https://github.com/xdota3310/sjsite-cloud.git
 
 eureka:
   client:

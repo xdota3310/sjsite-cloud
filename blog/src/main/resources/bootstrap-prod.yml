@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: cloud-blog
+  cloud:
+    config:
+      fail-fast: true
+      uri: http://${spring.cloud.client.ip-address}:6602/
