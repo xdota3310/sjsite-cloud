@@ -28,8 +28,8 @@
         </dependency>
         <dependency>
             <groupId>com.github.pagehelper</groupId>
-            <artifactId>pagehelper</artifactId>
-            <version>5.1.2</version>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.5</version>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -108,12 +108,15 @@
                 <excludes>
                     <exclude>bootstrap-dev.yml</exclude>
                     <exclude>bootstrap-prod.yml</exclude>
+                    <exclude>log/logback-prod.xml</exclude>
+                    <exclude>log/logback-dev.xml</exclude>
                 </excludes>
             </resource>
             <resource>
                 <filtering>true</filtering>
                 <directory>src/main/resources</directory>
                 <includes>
+                    <include>log/logback-${environment}.xml</include>
                     <include>bootstrap-${environment}.yml</include>
                 </includes>
             </resource>

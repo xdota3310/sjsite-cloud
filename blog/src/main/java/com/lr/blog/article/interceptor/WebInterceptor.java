@@ -25,12 +25,12 @@ public class WebInterceptor extends HandlerInterceptorAdapter {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
-        String []  allowDomain= {"http://www.sjsite.com:81","http://www.sjsite.com"};
-        Set<String> allowedOrigins= new HashSet<String>(Arrays.asList(allowDomain));
+//        String []  allowDomain= {"http://www.sjsite.com:81","http://www.sjsite.com"};
+//        Set<String> allowedOrigins= new HashSet<String>(Arrays.asList(allowDomain));
         String originHeader=request.getHeader("Origin");
-        if (allowedOrigins.contains(originHeader)) {
+//        if (allowedOrigins.contains(originHeader)) {
             response.setHeader("Access-Control-Allow-Origin", originHeader);
-        }
+//        }
 
         response.setHeader("Access-Control-Allow-Headers", "Content-Type,Access-Control-Allow-Origin,request-ajax,Access-Control-Allow-Credentials");
 

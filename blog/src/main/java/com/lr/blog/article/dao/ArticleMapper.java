@@ -1,6 +1,7 @@
 package com.lr.blog.article.dao;
 
 import com.lr.blog.article.model.DO.ArticleDO;
+import com.lr.blog.article.model.VO.ArticleHomeVO;
 import com.lr.common.base.PageVO;
 import org.springframework.stereotype.Component;
 
@@ -28,7 +29,7 @@ public interface ArticleMapper {
      * @param pageVO
      * @return
      */
-    List<ArticleDO> getByPage(PageVO pageVO);
+    List<ArticleHomeVO> getByPage(PageVO pageVO);
 
 
 }

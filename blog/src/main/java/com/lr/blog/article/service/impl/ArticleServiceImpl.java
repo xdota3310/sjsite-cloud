@@ -5,12 +5,14 @@ import com.github.pagehelper.PageInfo;
 import com.lr.blog.article.common.ArticleConstant;
 import com.lr.blog.article.dao.ArticleMapper;
 import com.lr.blog.article.model.DO.ArticleDO;
+import com.lr.blog.article.model.VO.ArticleHomeVO;
 import com.lr.blog.article.model.VO.NewArticleVO;
 import com.lr.blog.article.model.VO.query.ArtiPageVo;
 import com.lr.blog.article.service.ArticleService;
 import com.lr.common.base.PageResVO;
 import com.lr.common.base.PageVO;
 import com.lr.common.base.ResultResponse;
+import com.lr.common.utils.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +44,8 @@ public class ArticleServiceImpl implements ArticleService {
         pageVO.setQuery(pageVO.getQuery() == null ? "" : pageVO.getQuery());
         LOGGER.info("pageNum:" + Integer.toString(pageNum) + " pageSize:" + Integer.toString(pageSize));
         PageHelper.startPage(pageNum, pageSize);
-        List<ArticleDO> articleDOList = articleMapper.getByPage(pageVO);
+        List<ArticleHomeVO> articleDOList = articleMapper.getByPage(pageVO);
+        dataMask(articleDOList);
         PageInfo pageInfo = new PageInfo(articleDOList);
         PageResVO pageResVO = new PageResVO();
         pageResVO.setSum((int) pageInfo.getTotal());
@@ -58,7 +61,7 @@ public class ArticleServiceImpl implements ArticleService {
             try {
                 articleDO = articleMapper.selectByPrimaryKey(Integer.valueOf(aid));
             } catch (Exception e) {
-                LOGGER.error(e.toString());
+                LOGGER.error(ExceptionUtil.getErrorString(e));
                 return ResultResponse.createByError("-2", "invalid article id!!!");
             }
             if(articleDO != null) {
@@ -75,13 +78,13 @@ public class ArticleServiceImpl implements ArticleService {
     public ResultResponse createArticle(NewArticleVO newArticleVO) {
         ArticleDO articleDO = new ArticleDO();
         if(newArticleVO != null) {
-            if(newArticleVO.getTitle()==null){
+            if(newArticleVO.getTitle() == null) {
                 return ResultResponse.createByError("-3", "title cant be null");
             }
-            if(newArticleVO.getContent()==null){
+            if(newArticleVO.getContent() == null) {
                 return ResultResponse.createByError("-3", "content cant be null");
             }
-            if(newArticleVO.getType()==null){
+            if(newArticleVO.getType() == null) {
                 return ResultResponse.createByError("-3", "title cant be null");
             }
             articleDO.setTitle(newArticleVO.getTitle());
@@ -90,12 +93,21 @@ public class ArticleServiceImpl implements ArticleService {
             articleDO.setStatus(ArticleConstant.PRECHECK);
             articleDO.setType(newArticleVO.getType());
             int res = articleMapper.insertSelective(articleDO);
-            LOGGER.info("新建文章："+ articleDO.getAid());
+            LOGGER.info("新建文章：" + articleDO.getAid());
             return ResultResponse.createBySuccess(res);
-        }else {
+        } else {
             return ResultResponse.createByError("-3", "invalid article");
         }
 
 
+    }
+
+    private void dataMask(List<ArticleHomeVO> list) {
+        if(list == null || list.size() <= 0) {
+            return;
+        }
+        for(ArticleHomeVO articleHomeVO : list) {
+            articleHomeVO.setExcerpt((articleHomeVO.getExcerpt() == null ? "" : articleHomeVO.getExcerpt().substring(0, 550)) + "......");
+        }
     }
 }

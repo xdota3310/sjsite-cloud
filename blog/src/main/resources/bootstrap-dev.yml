@@ -26,3 +26,6 @@ eureka:
 mybatis:
   mapper-locations: classpath:mapper/*.xml
 #  type-aliases-package: com.lr.blog.article.model.DO
+
+logging:
+  config: classpath:log/logback-dev.xml

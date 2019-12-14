@@ -19,9 +19,13 @@
         <result column="allow_ping" property="allowPing" jdbcType="BIT"/>
         <result column="allow_feed" property="allowFeed" jdbcType="BIT"/>
     </resultMap>
-    <resultMap id="ResultMapWithBLOBs" type="com.lr.blog.article.model.DO.ArticleDO" extends="BaseResultMap">
-        <result column="content" property="content" jdbcType="LONGVARCHAR"/>
+    <resultMap id="ResultMapWithBLOBs" type="com.lr.blog.article.model.VO.ArticleHomeVO" >
+        <id column="aid" property="articleId" jdbcType="INTEGER"/>
+        <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
+        <result column="excerpt" property="excerpt" jdbcType="VARCHAR"/>
+        <result column="title" property="title" jdbcType="VARCHAR"/>
     </resultMap>
+
     <sql id="Base_Column_List">
     aid, title, slug,content,create_time, modify_time, author_id, type, status, tags, categories, hits,
     comments_num, allow_comment, allow_ping, allow_feed
@@ -36,7 +40,7 @@
             and t.type = #{type,jdbcType=INTEGER}
         </if>
     </sql>
-    <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer">
+    <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
         ,
@@ -45,9 +49,9 @@
         where aid = #{aid,jdbcType=INTEGER}
     </select>
 
-    <select id="getByPage" resultMap="BaseResultMap" parameterType="com.lr.blog.article.model.VO.query.ArtiPageVo">
+    <select id="getByPage" resultMap="ResultMapWithBLOBs" parameterType="com.lr.blog.article.model.VO.query.ArtiPageVo">
         select
-        <include refid="Base_Column_List"/>
+        aid,content excerpt,create_time,title
         from t_articles
         where
         1=1
