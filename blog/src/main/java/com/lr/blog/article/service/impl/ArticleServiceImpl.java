@@ -3,8 +3,10 @@ package com.lr.blog.article.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.lr.blog.article.common.ArticleConstant;
+import com.lr.blog.article.common.exception.ArticleException;
 import com.lr.blog.article.dao.ArticleMapper;
 import com.lr.blog.article.model.DO.ArticleDO;
+import com.lr.blog.article.model.DTO.ArticleDetailDTO;
 import com.lr.blog.article.model.VO.ArticleHomeVO;
 import com.lr.blog.article.model.VO.NewArticleVO;
 import com.lr.blog.article.model.VO.query.ArtiPageVo;
@@ -15,6 +17,7 @@ import com.lr.common.base.ResultResponse;
 import com.lr.common.utils.ExceptionUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -38,54 +41,43 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public ResultResponse<PageResVO> getByPage(ArtiPageVo pageVO) {
+    @SuppressWarnings({"rawtypes", "unchecked"})
+    public PageResVO getByPage(ArtiPageVo pageVO) {
         int pageNum = pageVO.getPageNum() == null ? 1 : pageVO.getPageNum();
         int pageSize = pageVO.getPageSize() == null ? 10 : pageVO.getPageSize();
         pageVO.setQuery(pageVO.getQuery() == null ? "" : pageVO.getQuery());
-        LOGGER.info("pageNum:" + Integer.toString(pageNum) + " pageSize:" + Integer.toString(pageSize));
         PageHelper.startPage(pageNum, pageSize);
         List<ArticleHomeVO> articleDOList = articleMapper.getByPage(pageVO);
         dataMask(articleDOList);
-        PageInfo pageInfo = new PageInfo(articleDOList);
-        PageResVO pageResVO = new PageResVO();
-        pageResVO.setSum((int) pageInfo.getTotal());
-        pageResVO.setResList(pageInfo.getList());
-        return ResultResponse.createBySuccess(pageResVO);
+        PageInfo<ArticleHomeVO> pageInfo = new PageInfo(articleDOList);
+        return (PageResVO<ArticleHomeVO>) new PageResVO((int) pageInfo.getTotal(), pageInfo.getList());
     }
 
     @Override
-    public ResultResponse<ArticleDO> getArticle(String aid) {
-        LOGGER.info("article id: " + aid);
-        ArticleDO articleDO = new ArticleDO();
-        if(!StringUtils.isEmpty(aid)) {
-            try {
-                articleDO = articleMapper.selectByPrimaryKey(Integer.valueOf(aid));
-            } catch (Exception e) {
-                LOGGER.error(ExceptionUtil.getErrorString(e));
-                return ResultResponse.createByError("-2", "invalid article id!!!");
+    public ArticleDetailDTO getArticle(String aid) {
+        ArticleDO articleDO;
+        ArticleDetailDTO articleDetailDTO = null;
+        try {
+            articleDO = articleMapper.selectByPrimaryKey(Integer.valueOf(aid));
+            if(articleDO != null){
+                articleDetailDTO  = new ArticleDetailDTO();
+                BeanUtils.copyProperties(articleDO,articleDetailDTO);
             }
-            if(articleDO != null) {
-                return ResultResponse.createBySuccess(articleDO);
-            } else {
-                return ResultResponse.createByError("-1", "no match article!!!");
-            }
-        } else {
-            return ResultResponse.createByError("-2", "invalid article id!!!");
+        } catch (Exception e) {
+            LOGGER.error(ExceptionUtil.getErrorString(e));
         }
+        return articleDetailDTO;
     }
 
     @Override
-    public ResultResponse createArticle(NewArticleVO newArticleVO) {
+    public int createArticle(NewArticleVO newArticleVO) {
         ArticleDO articleDO = new ArticleDO();
         if(newArticleVO != null) {
             if(newArticleVO.getTitle() == null) {
-                return ResultResponse.createByError("-3", "title cant be null");
+                throw new ArticleException("title cant be null");
             }
             if(newArticleVO.getContent() == null) {
-                return ResultResponse.createByError("-3", "content cant be null");
-            }
-            if(newArticleVO.getType() == null) {
-                return ResultResponse.createByError("-3", "title cant be null");
+                throw new ArticleException("content cant be null");
             }
             articleDO.setTitle(newArticleVO.getTitle());
             articleDO.setContent(newArticleVO.getContent());
@@ -93,13 +85,10 @@ public class ArticleServiceImpl implements ArticleService {
             articleDO.setStatus(ArticleConstant.PRECHECK);
             articleDO.setType(newArticleVO.getType());
             int res = articleMapper.insertSelective(articleDO);
-            LOGGER.info("新建文章：" + articleDO.getAid());
-            return ResultResponse.createBySuccess(res);
+            return res;
         } else {
-            return ResultResponse.createByError("-3", "invalid article");
+            throw new ArticleException("createArticle failed");
         }
-
-
     }
 
     private void dataMask(List<ArticleHomeVO> list) {
@@ -107,6 +96,7 @@ public class ArticleServiceImpl implements ArticleService {
             return;
         }
         for(ArticleHomeVO articleHomeVO : list) {
+            //节选文章前550个字符
             articleHomeVO.setExcerpt((articleHomeVO.getExcerpt() == null ? "" : articleHomeVO.getExcerpt().substring(0, 550)) + "......");
         }
     }

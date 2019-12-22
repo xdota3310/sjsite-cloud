@@ -13,7 +13,7 @@ spring:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://${spring.cloud.client.ip-address}:6601/eureka/
+      defaultZone: http://47.101.35.22:6601/eureka/
     registry-fetch-interval-seconds: 5
     healthcheck:
       enabled: true

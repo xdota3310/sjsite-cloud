@@ -77,7 +77,7 @@
 
 
     <!-- root级别   INFO -->
-    <root level="WARN">
+    <root level="INFO">
         <appender-ref ref="STDOUT"/>
         <!-- 文件输出 -->
         <appender-ref ref="ALL"/>

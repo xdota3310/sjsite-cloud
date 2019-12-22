@@ -46,7 +46,7 @@ public class WebInterceptor extends HandlerInterceptorAdapter {
 
         String token = "";
 
-        LOGGER.warn(method);
+//        LOGGER.warn(method);
         if(cookies != null) {
             for(Cookie cookie : cookies) {
                 if(JwtConstant.TOKEN.equals(cookie.getName()) && !"/article/index/init".equals(request.getServletPath())) {
@@ -57,7 +57,7 @@ public class WebInterceptor extends HandlerInterceptorAdapter {
 
 //        /article/index/init
 
-        LOGGER.info("用户token：" + token);
+//        LOGGER.info("用户token：" + token);
 //        if(token != null) {
 //            String reqUrl = "http://www.sjsso.com:8082/sso/token/tokenCheck";
 //            String content = "token=" + token;

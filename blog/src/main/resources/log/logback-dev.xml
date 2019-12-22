@@ -80,10 +80,10 @@
         </encoder>
     </appender>
 
-    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
-    <!--<logger name="com.lr" level="DEBUG" additivity="false">-->
-        <!--<appender-ref ref="STDOUT"/>-->
-    <!--</logger>-->
+    <!--<logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>-->
+    <logger name="com.lr" level="DEBUG" additivity="false">
+        <appender-ref ref="STDOUT"/>
+    </logger>
 
     <!-- root级别   INFO -->
     <root level="INFO">

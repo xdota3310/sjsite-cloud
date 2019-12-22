@@ -55,6 +55,7 @@
         from t_articles
         where
         1=1
+        order by aid desc
     </select>
     <!--<select id="getByPage" resultMap="ResultMapWithBLOBs" parameterType="com.lr.common.base.PageVO">-->
         <!--select-->
@@ -71,17 +72,17 @@
     where aid = #{aid,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.lr.blog.article.model.DO.ArticleDO" useGeneratedKeys="true" keyProperty="aid">
-    insert into t_articles (aid, title, slug, 
+    insert into t_articles (aid, title, slug,
       create_time, modify_time, author_id,
-      type, status, tags, 
-      categories, hits, comments_num, 
-      allow_comment, allow_ping, allow_feed, 
+      type, status, tags,
+      categories, hits, comments_num,
+      allow_comment, allow_ping, allow_feed,
       content)
-    values (#{aid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR}, 
+    values (#{aid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
       #{createTime,jdbcType=INTEGER}, #{modifyTime,jdbcType=INTEGER}, #{authorId,jdbcType=INTEGER},
-      #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR}, 
-      #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{commentsNum,jdbcType=INTEGER}, 
-      #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, #{allowFeed,jdbcType=BIT}, 
+      #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR},
+      #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{commentsNum,jdbcType=INTEGER},
+      #{allowComment,jdbcType=BIT}, #{allowPing,jdbcType=BIT}, #{allowFeed,jdbcType=BIT},
       #{content,jdbcType=LONGVARCHAR})
   </insert>
     <insert id="insertSelective" parameterType="com.lr.blog.article.model.DO.ArticleDO" useGeneratedKeys="true"
