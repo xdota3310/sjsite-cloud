@@ -5,6 +5,7 @@
         <id column="aid" property="aid" jdbcType="INTEGER"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
         <result column="slug" property="slug" jdbcType="VARCHAR"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
         <result column="content" property="content" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP"/>
@@ -21,13 +22,14 @@
     </resultMap>
     <resultMap id="ResultMapWithBLOBs" type="com.lr.blog.article.model.VO.ArticleHomeVO" >
         <id column="aid" property="articleId" jdbcType="INTEGER"/>
+        <result column="path" property="path" jdbcType="VARCHAR"/>
         <result column="create_time" property="createTime" jdbcType="TIMESTAMP"/>
         <result column="excerpt" property="excerpt" jdbcType="VARCHAR"/>
         <result column="title" property="title" jdbcType="VARCHAR"/>
     </resultMap>
 
     <sql id="Base_Column_List">
-    aid, title, slug,content,create_time, modify_time, author_id, type, status, tags, categories, hits,
+    aid,path,title, slug,content,create_time, modify_time, author_id, type, status, tags, categories, hits,
     comments_num, allow_comment, allow_ping, allow_feed
     </sql>
     <sql id="Blob_Column_List">
@@ -43,15 +45,19 @@
     <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer">
         select
         <include refid="Base_Column_List"/>
-        ,
-        <include refid="Blob_Column_List"/>
         from t_articles
         where aid = #{aid,jdbcType=INTEGER}
+    </select>
+    <select id="selectByPath" resultMap="BaseResultMap" parameterType="java.lang.String">
+        select
+        <include refid="Base_Column_List"/>
+        from t_articles
+        where path = #{path,jdbcType=VARCHAR}
     </select>
 
     <select id="getByPage" resultMap="ResultMapWithBLOBs" parameterType="com.lr.blog.article.model.VO.query.ArtiPageVo">
         select
-        aid,content excerpt,create_time,title
+        aid,path,excerpt,create_time,title
         from t_articles
         where
         1=1
@@ -72,13 +78,13 @@
     where aid = #{aid,jdbcType=INTEGER}
   </delete>
     <insert id="insert" parameterType="com.lr.blog.article.model.DO.ArticleDO" useGeneratedKeys="true" keyProperty="aid">
-    insert into t_articles (aid, title, slug,
+    insert into t_articles (aid, title, path, excerpt, slug,
       create_time, modify_time, author_id,
       type, status, tags,
       categories, hits, comments_num,
       allow_comment, allow_ping, allow_feed,
       content)
-    values (#{aid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
+    values (#{aid,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{path,jdbcType=VARCHAR}, #{excerpt,jdbcType=VARCHAR}, #{slug,jdbcType=VARCHAR},
       #{createTime,jdbcType=INTEGER}, #{modifyTime,jdbcType=INTEGER}, #{authorId,jdbcType=INTEGER},
       #{type,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, #{tags,jdbcType=VARCHAR},
       #{categories,jdbcType=VARCHAR}, #{hits,jdbcType=INTEGER}, #{commentsNum,jdbcType=INTEGER},
@@ -94,6 +100,12 @@
             </if>
             <if test="title != null">
                 title,
+            </if>
+            <if test="path != null">
+                path,
+            </if>
+            <if test="excerpt != null">
+                excerpt,
             </if>
             <if test="slug != null">
                 slug,
@@ -145,6 +157,13 @@
             <if test="title != null">
                 #{title,jdbcType=VARCHAR},
             </if>
+            <if test="path != null">
+                #{path,jdbcType=VARCHAR},
+            </if>
+            <if test="excerpt != null">
+                #{excerpt,jdbcType=LONGVARCHAR},
+            </if>
+
             <if test="slug != null">
                 #{slug,jdbcType=VARCHAR},
             </if>

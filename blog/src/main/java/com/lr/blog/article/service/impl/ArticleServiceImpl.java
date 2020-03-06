@@ -42,30 +42,35 @@ public class ArticleServiceImpl implements ArticleService {
 
     @Override
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public PageResVO getByPage(ArtiPageVo pageVO) {
+    public PageResVO<ArticleHomeVO> getByPage(ArtiPageVo pageVO) {
         int pageNum = pageVO.getPageNum() == null ? 1 : pageVO.getPageNum();
         int pageSize = pageVO.getPageSize() == null ? 10 : pageVO.getPageSize();
         pageVO.setQuery(pageVO.getQuery() == null ? "" : pageVO.getQuery());
         PageHelper.startPage(pageNum, pageSize);
         List<ArticleHomeVO> articleDOList = articleMapper.getByPage(pageVO);
-        dataMask(articleDOList);
         PageInfo<ArticleHomeVO> pageInfo = new PageInfo(articleDOList);
-        return (PageResVO<ArticleHomeVO>) new PageResVO((int) pageInfo.getTotal(), pageInfo.getList());
+        return new PageResVO<>((int) pageInfo.getTotal(), pageInfo.getList());
     }
 
     @Override
-    public ArticleDetailDTO getArticle(String aid) {
-        ArticleDO articleDO;
-        ArticleDetailDTO articleDetailDTO = null;
-        try {
-            articleDO = articleMapper.selectByPrimaryKey(Integer.valueOf(aid));
-            if(articleDO != null){
-                articleDetailDTO  = new ArticleDetailDTO();
-                BeanUtils.copyProperties(articleDO,articleDetailDTO);
-            }
-        } catch (Exception e) {
-            LOGGER.error(ExceptionUtil.getErrorString(e));
-        }
+    public PageResVO<ArticleHomeVO> get(ArtiPageVo pageVO) {
+        List<ArticleHomeVO> articleDOList = articleMapper.getByPage(pageVO);
+        return new PageResVO<>(0, articleDOList);
+    }
+
+    @Override
+    public ArticleDetailDTO getArticleById(String aid) {
+        ArticleDO articleDO = articleMapper.selectByPrimaryKey(Integer.valueOf(aid));
+        ArticleDetailDTO articleDetailDTO = new ArticleDetailDTO();
+        BeanUtils.copyProperties(articleDO, articleDetailDTO);
+        return articleDetailDTO;
+    }
+
+    @Override
+    public ArticleDetailDTO getArticleByPath(String path) {
+        ArticleDO articleDO = articleMapper.selectByPath(path);
+        ArticleDetailDTO articleDetailDTO = new ArticleDetailDTO();
+        BeanUtils.copyProperties(articleDO, articleDetailDTO);
         return articleDetailDTO;
     }
 
@@ -79,11 +84,9 @@ public class ArticleServiceImpl implements ArticleService {
             if(newArticleVO.getContent() == null) {
                 throw new ArticleException("content cant be null");
             }
-            articleDO.setTitle(newArticleVO.getTitle());
-            articleDO.setContent(newArticleVO.getContent());
+            BeanUtils.copyProperties(newArticleVO,articleDO);
             articleDO.setAuthorId(0);
             articleDO.setStatus(ArticleConstant.PRECHECK);
-            articleDO.setType(newArticleVO.getType());
             int res = articleMapper.insertSelective(articleDO);
             return res;
         } else {
@@ -91,13 +94,5 @@ public class ArticleServiceImpl implements ArticleService {
         }
     }
 
-    private void dataMask(List<ArticleHomeVO> list) {
-        if(list == null || list.size() <= 0) {
-            return;
-        }
-        for(ArticleHomeVO articleHomeVO : list) {
-            //节选文章前550个字符
-            articleHomeVO.setExcerpt((articleHomeVO.getExcerpt() == null ? "" : articleHomeVO.getExcerpt().substring(0, 550)) + "......");
-        }
-    }
+
 }

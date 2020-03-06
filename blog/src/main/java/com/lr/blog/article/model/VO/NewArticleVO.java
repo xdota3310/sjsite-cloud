@@ -12,6 +12,14 @@ public class NewArticleVO {
     private Integer authorId;
     private String type;
     private String status;
+    /**
+     * 文章路由
+     */
+    private String path;
+    /**
+     * 文章节选
+     */
+    private String excerpt;
 
     public String getTitle() {
         return title;
@@ -53,8 +61,24 @@ public class NewArticleVO {
         this.status = status;
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getExcerpt() {
+        return excerpt;
+    }
+
+    public void setExcerpt(String excerpt) {
+        this.excerpt = excerpt;
+    }
+
     @Override
     public String toString() {
-        return "NewArticleVO{" + "title='" + title + '\'' + ", content='" + content + '\'' + ", authorId=" + authorId + ", type='" + type + '\'' + ", status='" + status + '\'' + '}';
+        return "NewArticleVO{" + "title='" + title + '\'' + ", content='" + content + '\'' + ", authorId=" + authorId + ", type='" + type + '\'' + ", status='" + status + '\'' + ", path='" + path + '\'' + ", excerpt='" + excerpt + '\'' + '}';
     }
 }

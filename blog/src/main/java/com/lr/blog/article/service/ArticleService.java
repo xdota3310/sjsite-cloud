@@ -2,6 +2,7 @@ package com.lr.blog.article.service;
 
 import com.lr.blog.article.model.DO.ArticleDO;
 import com.lr.blog.article.model.DTO.ArticleDetailDTO;
+import com.lr.blog.article.model.VO.ArticleHomeVO;
 import com.lr.blog.article.model.VO.NewArticleVO;
 import com.lr.blog.article.model.VO.query.ArtiPageVo;
 import com.lr.common.base.PageResVO;
@@ -22,14 +23,21 @@ public interface ArticleService {
      * @param pageVO
      * @return
      */
-    PageResVO getByPage(ArtiPageVo pageVO);
+    PageResVO<ArticleHomeVO> getByPage(ArtiPageVo pageVO);
+    /**
+     * 首页初始化
+     * @return
+     */
+    PageResVO<ArticleHomeVO> get(ArtiPageVo pageVO);
 
     /**
      * 获取文章详情
      * @param aid
      * @return
      */
-    ArticleDetailDTO getArticle(String aid);
+    ArticleDetailDTO getArticleById(String aid);
+
+    ArticleDetailDTO getArticleByPath(String path);
 
     /**
      * 新建文章

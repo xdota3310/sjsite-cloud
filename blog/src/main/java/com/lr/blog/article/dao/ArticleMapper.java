@@ -15,7 +15,19 @@ public interface ArticleMapper {
 
     int insertSelective(ArticleDO record);
 
+    /**
+     * 根据ID查询
+     * @param aid
+     * @return
+     */
     ArticleDO selectByPrimaryKey(Integer aid);
+
+    /**
+     * 根据路由路径查询
+     * @param path
+     * @return
+     */
+    ArticleDO selectByPath(String path);
 
     int updateByPrimaryKeySelective(ArticleDO record);
 

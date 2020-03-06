@@ -10,4 +10,5 @@ public class ArticleConstant {
     public static String PRECHECK = "0";
     public static String REJECK = "-1";
     public static String ACCEPT = "1";
+    public static String TEMP_PREFIX = "TEMP_";
 }

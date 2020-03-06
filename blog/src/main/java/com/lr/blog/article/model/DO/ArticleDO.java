@@ -17,9 +17,19 @@ public class ArticleDO {
     private Integer aid;
 
     /**
+     * 文章路由
+     */
+    private String path;
+
+    /**
      * 内容标题
      */
     private String title;
+
+    /**
+     * 文章节选
+     */
+    private String excerpt;
 
     /**
      * 内容缩略名
@@ -221,8 +231,24 @@ public class ArticleDO {
         this.content = content == null ? null : content.trim();
     }
 
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
+
+    public String getExcerpt() {
+        return excerpt;
+    }
+
+    public void setExcerpt(String excerpt) {
+        this.excerpt = excerpt;
+    }
+
     @Override
     public String toString() {
-        return "ArticleDO{" + "aid=" + aid + ", title='" + title + '\'' + ", slug='" + slug + '\'' + ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", authorId=" + authorId + ", type='" + type + '\'' + ", status='" + status + '\'' + ", tags='" + tags + '\'' + ", categories='" + categories + '\'' + ", hits=" + hits + ", commentsNum=" + commentsNum + ", allowComment=" + allowComment + ", allowPing=" + allowPing + ", allowFeed=" + allowFeed + ", content='" + content + '\'' + '}';
+        return "ArticleDO{" + "aid=" + aid + ", path='" + path + '\'' + ", title='" + title + '\'' + ", excerpt='" + excerpt + '\'' + ", slug='" + slug + '\'' + ", createTime=" + createTime + ", modifyTime=" + modifyTime + ", authorId=" + authorId + ", type='" + type + '\'' + ", status='" + status + '\'' + ", tags='" + tags + '\'' + ", categories='" + categories + '\'' + ", hits=" + hits + ", commentsNum=" + commentsNum + ", allowComment=" + allowComment + ", allowPing=" + allowPing + ", allowFeed=" + allowFeed + ", content='" + content + '\'' + '}';
     }
 }

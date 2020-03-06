@@ -17,14 +17,14 @@ public class ArticleHomeVO implements Serializable {
      */
     private Integer articleId;
     /**
-     * 文章id对称加密
+     * 文章路由
      */
-    private String articleCode;
+    private String path;
 
-    @JsonFormat(pattern="yyyy-MM-dd HH:MM",timezone = "GMT+8")
     /**
      *创建时间
      */
+    @JsonFormat(pattern="yyyy-MM-dd HH:MM",timezone = "GMT+8")
     private Date createTime;
     /**
      * 文章节选
@@ -43,12 +43,12 @@ public class ArticleHomeVO implements Serializable {
         this.articleId = articleId;
     }
 
-    public String getArticleCode() {
-        return articleCode;
+    public String getPath() {
+        return path;
     }
 
-    public void setArticleCode(String articleCode) {
-        this.articleCode = articleCode;
+    public void setPath(String path) {
+        this.path = path;
     }
 
     public Date getCreateTime() {
@@ -77,6 +77,6 @@ public class ArticleHomeVO implements Serializable {
 
     @Override
     public String toString() {
-        return "ArticleHomeVO{" + "articleId=" + articleId + ", articleCode='" + articleCode + '\'' + ", createTime=" + createTime + ", excerpt='" + excerpt + '\'' + ", title='" + title + '\'' + '}';
+        return "ArticleHomeVO{" + "articleId=" + articleId + ", path='" + path + '\'' + ", createTime=" + createTime + ", excerpt='" + excerpt + '\'' + ", title='" + title + '\'' + '}';
     }
 }
