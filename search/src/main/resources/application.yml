@@ -1,0 +1,8 @@
+server:
+  port: 6012
+
+elasticsearch:
+  server:
+    ip: 119.45.13.149
+    port: 9200
+    scheme: http

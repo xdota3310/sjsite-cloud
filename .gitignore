@@ -1,0 +1,38 @@
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+
+### VS Code ###
+.vscode/
+/search/mvnw
+/search/mvnw.cmd
+/search/.mvn/wrapper/maven-wrapper.properties
+/logs/blog/2019-12-22/all-log.log
+/logs/blog/2019-12-22/error-log.log
+/search/.mvn/wrapper/maven-wrapper.jar
+/search/.mvn/wrapper/maven-wrapper.jar
